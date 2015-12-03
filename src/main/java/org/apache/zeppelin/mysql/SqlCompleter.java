@@ -45,18 +45,18 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
 /**
- * SQL auto complete functionality for the PostgreSqlInterpreter.
+ * SQL auto complete functionality for the MySqlInterpreter.
  */
 public class SqlCompleter extends StringsCompleter {
 
-  private static Logger logger = LoggerFactory.getLogger(SqlCompleter.class);
+  private static final Logger logger = LoggerFactory.getLogger(SqlCompleter.class);
 
   /**
    * Delimiter that can split SQL statement in keyword list
    */
-  private WhitespaceArgumentDelimiter sqlDelimiter = new WhitespaceArgumentDelimiter() {
+  private final WhitespaceArgumentDelimiter sqlDelimiter = new WhitespaceArgumentDelimiter() {
 
-    private Pattern pattern = Pattern.compile("[\\.:;,]");
+    private final Pattern pattern = Pattern.compile("[\\.:;,]");
 
     @Override
     public boolean isDelimiterChar(CharSequence buffer, int pos) {
@@ -65,7 +65,7 @@ public class SqlCompleter extends StringsCompleter {
     }
   };
 
-  private Set<String> modelCompletions = new HashSet<String>();
+  private Set<String> modelCompletions = new HashSet<>();
 
   public SqlCompleter(Set<String> allCompletions, Set<String> dataModelCompletions) {
     super(allCompletions);
@@ -123,7 +123,7 @@ public class SqlCompleter extends StringsCompleter {
       modelCompletions = newModelCompletions;
 
     } catch (SQLException e) {
-      logger.error("Failed to update the metadata conmpletions", e);
+      logger.error("Failed to update the metadata completions", e);
     }
   }
 
@@ -150,7 +150,7 @@ public class SqlCompleter extends StringsCompleter {
       keywords += "," + driverKeywords.toUpperCase();
     }
 
-    Set<String> completions = new TreeSet<String>();
+    Set<String> completions = new TreeSet<>();
 
 
     // Add the keywords from the current JDBC connection
@@ -193,7 +193,7 @@ public class SqlCompleter extends StringsCompleter {
 
   public static Set<String> getDataModelMetadataCompletions(Connection connection)
       throws SQLException {
-    Set<String> completions = new TreeSet<String>();
+    Set<String> completions = new TreeSet<>();
     getColumnNames(connection.getMetaData(), completions);
     getSchemaNames(connection.getMetaData(), completions);
     return completions;
@@ -202,8 +202,7 @@ public class SqlCompleter extends StringsCompleter {
   private static void getColumnNames(DatabaseMetaData meta, Set<String> names) throws SQLException {
 
     try {
-      ResultSet columns = meta.getColumns(meta.getConnection().getCatalog(), null, "%", "%");
-      try {
+      try (ResultSet columns = meta.getColumns(meta.getConnection().getCatalog(), null, "%", "%")) {
 
         while (columns.next()) {
           // Add the following strings: (1) column name, (2) table name
@@ -214,8 +213,6 @@ public class SqlCompleter extends StringsCompleter {
             // names.add(columns.getString("TABLE_NAME") + "." + columns.getString("COLUMN_NAME"));
           }
         }
-      } finally {
-        columns.close();
       }
 
       logger.debug(Joiner.on(',').join(names));
@@ -227,16 +224,13 @@ public class SqlCompleter extends StringsCompleter {
   private static void getSchemaNames(DatabaseMetaData meta, Set<String> names) throws SQLException {
 
     try {
-      ResultSet schemas = meta.getSchemas();
-      try {
+      try (ResultSet schemas = meta.getSchemas()) {
         while (schemas.next()) {
           String schemaName = schemas.getString("TABLE_SCHEM");
           if (!isBlank(schemaName)) {
             names.add(schemaName + ".");
           }
         }
-      } finally {
-        schemas.close();
       }
     } catch (Throwable t) {
       logger.error("Failed to retrieve the column name", t);

@@ -69,7 +69,7 @@ import com.google.common.collect.Sets.SetView;
  */
 public class MySqlInterpreter extends Interpreter {
 
-  private Logger logger = LoggerFactory.getLogger(MySqlInterpreter.class);
+  private final Logger logger = LoggerFactory.getLogger(MySqlInterpreter.class);
 
   private static final char WhITESPACE = ' ';
   private static final char NEWLINE = '\n';
@@ -120,7 +120,7 @@ public class MySqlInterpreter extends Interpreter {
         }
       };
 
-  private static final List<String> NO_COMPLETION = new ArrayList<String>();
+  private static final List<String> NO_COMPLETION = new ArrayList<>();
 
   public MySqlInterpreter(Properties property) {
     super(property);
@@ -202,7 +202,7 @@ public class MySqlInterpreter extends Interpreter {
 
       currentStatement.setMaxRows(maxResult);
 
-      StringBuilder msg = null;
+      StringBuilder msg;
       boolean isTableType = false;
 
       if (containsIgnoreCase(sql, EXPLAIN_PREDICATE)) {
@@ -322,7 +322,7 @@ public class MySqlInterpreter extends Interpreter {
   @Override
   public List<String> completion(String buf, int cursor) {
 
-    List<CharSequence> candidates = new ArrayList<CharSequence>();
+    List<CharSequence> candidates = new ArrayList<>();
     if (sqlCompleter != null && sqlCompleter.complete(buf, cursor, candidates) >= 0) {
       return Lists.transform(candidates, sequenceToStringTransformer);
     } else {

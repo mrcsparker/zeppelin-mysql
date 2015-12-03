@@ -44,7 +44,7 @@ import com.mockrunner.mock.jdbc.MockConnection;
 import com.mockrunner.mock.jdbc.MockResultSet;
 
 /**
- * PostgreSQL interpreter unit tests
+ * MySQL interpreter unit tests
  */
 public class MySqlInterpreterTest extends BasicJDBCTestCaseAdapter {
 

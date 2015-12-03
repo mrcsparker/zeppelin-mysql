@@ -37,9 +37,9 @@ import com.mockrunner.jdbc.BasicJDBCTestCaseAdapter;
 
 public class SqlCompleterTest extends BasicJDBCTestCaseAdapter {
 
-  private Logger logger = LoggerFactory.getLogger(SqlCompleterTest.class);
+  private final Logger logger = LoggerFactory.getLogger(SqlCompleterTest.class);
 
-  private final static Set<String> EMPTY = new HashSet<String>();
+  private final static Set<String> EMPTY = new HashSet<>();
 
   private CompleterTester tester;
 
@@ -118,7 +118,7 @@ public class SqlCompleterTest extends BasicJDBCTestCaseAdapter {
 
   public class CompleterTester {
 
-    private Completer completer;
+    private final Completer completer;
 
     private String buffer;
     private int fromCursor;
@@ -157,7 +157,7 @@ public class SqlCompleterTest extends BasicJDBCTestCaseAdapter {
 
     private void expectedCompletions(String buffer, int cursor, Set<String> expected) {
 
-      ArrayList<CharSequence> candidates = new ArrayList<CharSequence>();
+      ArrayList<CharSequence> candidates = new ArrayList<>();
 
       completer.complete(buffer, cursor, candidates);
 
@@ -170,7 +170,7 @@ public class SqlCompleterTest extends BasicJDBCTestCaseAdapter {
     }
 
     private String explain(String buffer, int cursor, ArrayList<CharSequence> candidates) {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       for (int i = 0; i <= Math.max(cursor, buffer.length()); i++) {
         if (i == cursor) {
