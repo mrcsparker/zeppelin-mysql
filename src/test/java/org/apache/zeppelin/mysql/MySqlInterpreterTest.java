@@ -231,7 +231,7 @@ public class MySqlInterpreterTest extends BasicJDBCTestCaseAdapter {
   }
 
   @Test
-  public void testExplainQueryWithSpecialCharachters() throws SQLException {
+  public void testExplainQueryWithSpecialCharacters() throws SQLException {
 
     when(mysqlInterpreter.getMaxResult()).thenReturn(1000);
 

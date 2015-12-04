@@ -44,8 +44,8 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
 /**
- * MySQL interpreter for Zeppelin. This interpreter can also be used for accessing HAWQ and
- * GreenplumDB.
+ * MySQL interpreter for Zeppelin. This interpreter can also be used for accessing MariaDB and
+ * Percona.
  * 
  * <ul>
  * <li>{@code mysql.url} - JDBC URL to connect to.</li>
@@ -71,7 +71,7 @@ public class MySqlInterpreter extends Interpreter {
 
   private final Logger logger = LoggerFactory.getLogger(MySqlInterpreter.class);
 
-  private static final char WhITESPACE = ' ';
+  private static final char WHITESPACE = ' ';
   private static final char NEWLINE = '\n';
   private static final char TAB = '\t';
   private static final String TABLE_MAGIC_TAG = "%table ";
@@ -279,7 +279,7 @@ public class MySqlInterpreter extends Interpreter {
     if (str == null) {
       return EMPTY_COLUMN_VALUE;
     }
-    return (!isTableResponseType) ? str : str.replace(TAB, WhITESPACE).replace(NEWLINE, WhITESPACE);
+    return (!isTableResponseType) ? str : str.replace(TAB, WHITESPACE).replace(NEWLINE, WHITESPACE);
   }
 
   @Override

@@ -199,7 +199,7 @@ public class SqlCompleter extends StringsCompleter {
     return completions;
   }
 
-  private static void getColumnNames(DatabaseMetaData meta, Set<String> names) throws SQLException {
+  private static void getColumnNames(DatabaseMetaData meta, Set<String> names) {
 
     try {
       try (ResultSet columns = meta.getColumns(meta.getConnection().getCatalog(), null, "%", "%")) {
@@ -221,7 +221,7 @@ public class SqlCompleter extends StringsCompleter {
     }
   }
 
-  private static void getSchemaNames(DatabaseMetaData meta, Set<String> names) throws SQLException {
+  private static void getSchemaNames(DatabaseMetaData meta, Set<String> names) {
 
     try {
       try (ResultSet schemas = meta.getSchemas()) {
