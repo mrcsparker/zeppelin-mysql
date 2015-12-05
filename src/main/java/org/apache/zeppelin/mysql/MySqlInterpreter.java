@@ -226,7 +226,7 @@ public class MySqlInterpreter extends Interpreter {
             if (i > 1) {
               msg.append(TAB);
             }
-            msg.append(replaceReservedChars(isTableType, md.getColumnName(i)));
+            msg.append(replaceReservedChars(isTableType, md.getColumnLabel(i)));
           }
           msg.append(NEWLINE);
 
